@@ -1,3 +1,3 @@
-# GNOME shell extension typescript template
+# XWayland GNOME shell extension
 
-A template for my GNOME shell extensions in Typescript.
+Determine whether a window uses xwayland in GNOME.

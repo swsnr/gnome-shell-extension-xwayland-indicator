@@ -1,9 +1,8 @@
 {
-  "name": "gnome-shell-extension-typescript-template",
-  "uuid": "typescript-template@swsnr.de",
-  "description": "Typescript template for GNOME shell extensions",
-  "version-name": "1.0.0",
-  "url": "https://github.com/swsnr/gnome-shell-extension-typescript-template",
-  "shell-version": ["45"],
-  "settings-schema": "org.gnome.shell.extensions.typescript-template"
+  "name": "XWayland",
+  "uuid": "xwayland@swsnr.de",
+  "description": "Determine whether a window uses XWayland.",
+  "version-name": "0.0.0",
+  "url": "https://github.com/swsnr/gnome-shell-extension-xwayland",
+  "shell-version": ["45"]
 }

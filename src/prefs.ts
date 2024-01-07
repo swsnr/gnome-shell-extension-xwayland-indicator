@@ -19,7 +19,6 @@
 
 import GObject from "gi://GObject";
 import GLib from "gi://GLib";
-import Gio from "gi://Gio";
 import Gtk from "gi://Gtk";
 import Adw from "gi://Adw";
 
@@ -57,31 +56,6 @@ const getTemplate = (name: string): string => {
   }
   return uri;
 };
-
-interface GeneralPageChildren {
-  _sayHello: Adw.SwitchRow;
-}
-
-const GeneralPage = GObject.registerClass(
-  {
-    GTypeName: "GeneralPage",
-    Template: getTemplate("GeneralPage"),
-    InternalChildren: ["sayHello"],
-  },
-  class GeneralPage extends Adw.PreferencesPage {
-    constructor(settings: Gio.Settings) {
-      super();
-
-      const children = this as unknown as GeneralPageChildren;
-      settings.bind(
-        "say-hello",
-        children._sayHello,
-        "active",
-        Gio.SettingsBindFlags.DEFAULT,
-      );
-    }
-  },
-);
 
 interface AboutPageChildren {
   _extensionName: Gtk.Label;
@@ -122,15 +96,7 @@ const AboutPage = GObject.registerClass(
 );
 
 export default class HelloWorldPreferences extends ExtensionPreferences {
-  override fillPreferencesWindow(
-    window: Adw.PreferencesWindow & {
-      _settings: Gio.Settings;
-    },
-  ): void {
-    // Create a settings object and bind the row to our key.
-    // Attach the settings object to the window to keep it alive while the window is alive.
-    window._settings = this.getSettings();
-    window.add(new GeneralPage(window._settings));
+  override fillPreferencesWindow(window: Adw.PreferencesWindow): void {
     window.add(new AboutPage(this.metadata));
   }
 }

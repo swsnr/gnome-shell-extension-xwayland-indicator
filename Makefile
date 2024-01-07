@@ -2,7 +2,7 @@ PREFIX = /usr/local
 DESTDIR =
 HOME-DESTDIR = $(HOME)/.local/share/gnome-shell/extensions/$(UUID)
 
-UUID = typescript-template@swsnr.de
+UUID = xwayland@swsnr.de
 
 DIST-EXTRA-SRC = LICENSE-GPL2 LICENSE-MPL2
 BLUEPRINTS = $(wildcard ui/*.blp)
@@ -18,7 +18,6 @@ dist: compile
 		--extra-source=../metadata.json \
 		--extra-source=ui \
 		$(addprefix --extra-source=../,$(DIST-EXTRA-SRC)) \
-		$(addprefix --schema=../,$(wildcard schemas/*.gschema.xml))
 
 # Make a reproducible dist package
 .PHONY: dist-repro
@@ -35,7 +34,7 @@ install-home: dist
 uninstall-home:
 	rm -rf $(HOME-DESTDIR)
 
-# Install as a system-wide installation schema, into a separate directory
+# Install as a system-wide installation, into a separate directory
 # Intended for distribution packaging
 .PHONY: install-package
 install-package: dist
@@ -44,9 +43,6 @@ install-package: dist
 		$(DESTDIR)/$(PREFIX)/share/glib-2.0/
 	bsdtar -xf dist/$(UUID).shell-extension.zip \
 		-C $(DESTDIR)/$(PREFIX)/share/gnome-shell/extensions/$(UUID) --no-same-owner
-	mv -T --no-clobber \
-		$(DESTDIR)/$(PREFIX)/share/gnome-shell/extensions/$(UUID)/schemas \
-		$(DESTDIR)/$(PREFIX)/share/glib-2.0/schemas
 	mv -T --no-clobber \
 		$(DESTDIR)/$(PREFIX)/share/gnome-shell/extensions/$(UUID)/locale \
 		$(DESTDIR)/$(PREFIX)/share/locale
