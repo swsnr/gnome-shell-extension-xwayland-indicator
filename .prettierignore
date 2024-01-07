@@ -1,0 +1,10 @@
+# Build outputes
+/dist/
+/build/
+
+# Node configuration and modules
+/package.json
+/.pnp.*
+
+# Files I prefer not to be formatted
+*.md

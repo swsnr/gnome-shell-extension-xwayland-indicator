@@ -1,0 +1,25 @@
+{
+  "license": "GPL-2.0-or-later OR MPL-2.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "compile": "tsc --build tsconfig.json",
+    "dist:format": "eslint --no-eslintrc --config .eslintrc.dist.cjs --quiet --fix build/",
+    "check:types": "tsc --build tsconfig.types.json",
+    "lint": "eslint .",
+    "format": "prettier ."
+  },
+  "devDependencies": {
+    "@girs/gjs": "^3.2.7",
+    "@girs/gnome-shell": "^45.0.0-beta8",
+    "@tsconfig/strictest": "^2.0.2",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "yarn@4.0.2"
+}

@@ -1,0 +1,9 @@
+# Package manager artifacts
+/.yarn/
+/.pnp.*
+
+# Extension artifact
+/dist/
+
+# Build outputs
+/build/
