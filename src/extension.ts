@@ -19,36 +19,32 @@
 
 import Meta from "gi://Meta";
 
+import * as Main from "resource:///org/gnome/shell/ui/main.js";
+
 import { DestructibleExtension } from "./lib/common/extension.js";
 import { Destroyer, SignalConnectionTracker } from "./lib/common/lifecycle.js";
-
-const displayLabel = (display: Meta.Display): string =>
-  display.get_context().get_compositor_type() === Meta.CompositorType.X11
-    ? "X11"
-    : "wayland";
-
-const windowLabel = (window: Meta.Window): string =>
-  window.get_client_type() === Meta.WindowClientType.X11 ? "X11" : "wayland";
+import { XWaylandIndicator } from "./lib/indicator.js";
 
 export default class XWaylandExtension extends DestructibleExtension {
   override initialize(destroyer: Destroyer): void {
     const signalTracker = destroyer.add(new SignalConnectionTracker());
 
-    console.log("Display", displayLabel(global.display));
-    signalTracker.track(
-      global.display,
-      global.display.connect("notify::focus-window", (display) => {
-        // Explicitly mark `window` as nullable, because the inferred types aren't correct here.
-        const window = display.get_focus_window() as Meta.Window | null;
-        if (window !== null) {
-          console.log(
-            "Focused window changed:",
-            windowLabel(display.get_focus_window()),
-          );
-        } else {
-          console.log("Lost focus");
-        }
-      }),
-    );
+    const indicator = destroyer.add(new XWaylandIndicator());
+    Main.panel.addToStatusArea(this.metadata.uuid, indicator);
+
+    const compositorType = global.display.get_context().get_compositor_type();
+    if (compositorType === Meta.CompositorType.X11) {
+      console.log("X11 session, not monitoring focused window");
+      indicator.markX11Session();
+    } else {
+      console.log("Wayland session, monitoring focused window");
+      signalTracker.track(
+        global.display,
+        global.display.connect("notify::focus-window", (display) => {
+          indicator.markWindow(display.focus_window);
+        }),
+      );
+      indicator.markWindow(global.display.focus_window);
+    }
   }
 }
