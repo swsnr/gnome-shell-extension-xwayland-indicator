@@ -16,7 +16,7 @@ dist: compile
 	yarn dist:format
 	gnome-extensions pack --force --out-dir dist build \
 		--extra-source=../metadata.json \
-		--extra-source=ui \
+		--extra-source=ui --extra-source lib \
 		$(addprefix --extra-source=../,$(DIST-EXTRA-SRC)) \
 
 # Make a reproducible dist package

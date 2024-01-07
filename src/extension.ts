@@ -17,20 +17,38 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
-import GLib from "gi://GLib";
-import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
+import Meta from "gi://Meta";
 
-export default class HelloWorldExtension extends Extension {
-  override enable(): void {
-    const settings = this.getSettings();
-    if (settings.get_boolean("say-hello")) {
-      const user = GLib.get_user_name();
-      console.log(`Hello ${user} from ${this.metadata.name}`);
-    }
-  }
+import { DestructibleExtension } from "./lib/common/extension.js";
+import { Destroyer, SignalConnectionTracker } from "./lib/common/lifecycle.js";
 
-  override disable(): void {
-    const user = GLib.get_user_name();
-    console.log(`Goodbye ${user} from ${this.metadata.name}`);
+const displayLabel = (display: Meta.Display): string =>
+  display.get_context().get_compositor_type() === Meta.CompositorType.X11
+    ? "X11"
+    : "wayland";
+
+const windowLabel = (window: Meta.Window): string =>
+  window.get_client_type() === Meta.WindowClientType.X11 ? "X11" : "wayland";
+
+export default class XWaylandExtension extends DestructibleExtension {
+  override initialize(destroyer: Destroyer): void {
+    const signalTracker = destroyer.add(new SignalConnectionTracker());
+
+    console.log("Display", displayLabel(global.display));
+    signalTracker.track(
+      global.display,
+      global.display.connect("notify::focus-window", (display) => {
+        // Explicitly mark `window` as nullable, because the inferred types aren't correct here.
+        const window = display.get_focus_window() as Meta.Window | null;
+        if (window !== null) {
+          console.log(
+            "Focused window changed:",
+            windowLabel(display.get_focus_window()),
+          );
+        } else {
+          console.log("Lost focus");
+        }
+      }),
+    );
   }
 }
