@@ -2,7 +2,7 @@ PREFIX = /usr/local
 DESTDIR =
 HOME-DESTDIR = $(HOME)/.local/share/gnome-shell/extensions/$(UUID)
 
-UUID = xwayland@swsnr.de
+UUID = xwayland-indicator@swsnr.de
 
 DIST-EXTRA-SRC = LICENSE-GPL2 LICENSE-MPL2
 BLUEPRINTS = $(wildcard ui/*.blp)
