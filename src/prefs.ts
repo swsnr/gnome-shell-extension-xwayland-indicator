@@ -95,7 +95,7 @@ const AboutPage = GObject.registerClass(
   },
 );
 
-export default class HelloWorldPreferences extends ExtensionPreferences {
+export default class XWaylandIndicatorPreferences extends ExtensionPreferences {
   override fillPreferencesWindow(window: Adw.PreferencesWindow): void {
     window.add(new AboutPage(this.metadata));
   }
