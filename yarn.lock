@@ -814,10 +814,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/strictest@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "@tsconfig/strictest@npm:2.0.2"
-  checksum: 22275cecc42fb4068405e22abaf42d58352f65f9217f0c8bad0a459f178ea6d2ac4978e0157ff747322e299dfb90852d5a9988460f96b5ba647817f2a015f9ee
+"@tsconfig/strictest@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@tsconfig/strictest@npm:2.0.3"
+  checksum: a26be4aed831c59b6b362608f34c6f0b2427dc08031176d825e46079090b9e48aa5ff71647b762a9a7009cb898af9b6cd24a195d268e9486fffa93de99de08c6
   languageName: node
   linkType: hard
 
@@ -1797,7 +1797,7 @@ __metadata:
   dependencies:
     "@girs/gjs": "npm:^3.2.7"
     "@girs/gnome-shell": "npm:^45.0.0-beta8"
-    "@tsconfig/strictest": "npm:^2.0.2"
+    "@tsconfig/strictest": "npm:^2.0.3"
     "@typescript-eslint/eslint-plugin": "npm:^6.21.0"
     "@typescript-eslint/parser": "npm:^6.21.0"
     eslint: "npm:^8.56.0"
