@@ -24,10 +24,9 @@ dist: compile
 dist-repro: dist
 	strip-nondeterminism dist/$(UUID).shell-extension.zip
 
-# Install to local home directory; this simply unpacks the zip file as GNOME would do
+# Install to local home directory
 .PHONY: install-home
 install-home: dist
-	mkdir -p $(HOME-DESTDIR)
 	gnome-extensions install -f dist/$(UUID).shell-extension.zip
 
 .PHONY: uninstall-home
