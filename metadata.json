@@ -4,5 +4,5 @@
   "description": "Indicate whether the focused window uses XWayland.",
   "version-name": "45.1",
   "url": "https://github.com/swsnr/gnome-shell-extension-xwayland",
-  "shell-version": ["45"]
+  "shell-version": ["46"]
 }
