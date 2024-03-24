@@ -30,6 +30,10 @@ import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 export abstract class DestructibleExtension extends Extension {
   private enabledExtension?: Destructible | null;
 
+  get version(): string {
+    return this.metadata["version-name"] ?? "n/a";
+  }
+
   /**
    * Initialize this extension.
    *
@@ -47,14 +51,12 @@ export abstract class DestructibleExtension extends Extension {
    */
   override enable(): void {
     if (!this.enabledExtension) {
-      console.log(
-        `Enabling extension ${this.metadata.uuid} ${this.metadata["version-name"]}`,
-      );
+      console.log(`Enabling extension ${this.metadata.uuid} ${this.version}`);
       this.enabledExtension = initializeSafely((destroyer) => {
         this.initialize(destroyer);
       });
       console.log(
-        `Extension ${this.metadata.uuid} ${this.metadata["version-name"]} successfully enabled`,
+        `Extension ${this.metadata.uuid} ${this.version} successfully enabled`,
       );
     }
   }
@@ -65,9 +67,7 @@ export abstract class DestructibleExtension extends Extension {
    * If existing, destroy the allocated resources of `initialize`.
    */
   override disable(): void {
-    console.log(
-      `Disabling extension ${this.metadata.uuid} ${this.metadata["version-name"]}`,
-    );
+    console.log(`Disabling extension ${this.metadata.uuid} ${this.version}`);
     this.enabledExtension?.destroy();
     this.enabledExtension = null;
   }
