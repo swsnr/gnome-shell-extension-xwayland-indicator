@@ -18,6 +18,7 @@ module.exports = {
   root: true,
   rules: {},
   ignorePatterns: [
+    "/node_modules/",
     // Build outputs
     "/build/**/*",
     "/dist/**/*",
