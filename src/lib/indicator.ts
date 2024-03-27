@@ -32,7 +32,7 @@ export const XWaylandIndicator = GObject.registerClass(
     constructor() {
       super(0, "XWayland Indicator", true);
       this.label = new St.Label();
-      this.label.clutter_text.y_align = Clutter.ActorAlign.CENTER;
+      this.label.clutterText.yAlign = Clutter.ActorAlign.CENTER;
       this.setSensitive(false);
       this.add_child(this.label);
       this.set_label_actor(this.label);
