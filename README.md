@@ -6,6 +6,8 @@
 
 Determine whether a window uses xwayland in GNOME.
 
+![](./screenshot.png)
+
 This small GNOME extension shows a small "X" indicator in the panel if the currently focused window uses xwayland.
 
 ## Install
