@@ -42,9 +42,6 @@ install-package: dist
 		$(DESTDIR)/$(PREFIX)/share/glib-2.0/
 	bsdtar -xf dist/$(UUID).shell-extension.zip \
 		-C $(DESTDIR)/$(PREFIX)/share/gnome-shell/extensions/$(UUID) --no-same-owner
-	mv -T --no-clobber \
-		$(DESTDIR)/$(PREFIX)/share/gnome-shell/extensions/$(UUID)/locale \
-		$(DESTDIR)/$(PREFIX)/share/locale
 
 .PHONY: compile
 compile: $(UIDEFS)
