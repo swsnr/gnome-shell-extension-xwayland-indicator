@@ -18,41 +18,36 @@
 // GNU General Public License for more details.
 
 import GObject from "gi://GObject";
-import Clutter from "gi://Clutter";
 import St from "gi://St";
 import Meta from "gi://Meta";
 
-import { gettext as _ } from "resource:///org/gnome/shell/extensions/extension.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
+import { IconLoader } from "./common/ui/icons.js";
+import { Destructible } from "./common/lifecycle.js";
 
 export const XWaylandIndicator = GObject.registerClass(
-  class XWaylandIndicator extends PanelMenu.Button {
-    private readonly label: St.Label;
-
-    constructor() {
+  class XWaylandIndicator extends PanelMenu.Button implements Destructible {
+    constructor(iconLoader: IconLoader) {
       super(0, "XWayland Indicator", true);
-      this.label = new St.Label();
-      this.label.clutterText.yAlign = Clutter.ActorAlign.CENTER;
+
+      this.add_child(
+        new St.Icon({
+          styleClass: "system-status-icon",
+          gicon: iconLoader.loadIcon("x11-symbolic"),
+        }),
+      );
+
       this.setSensitive(false);
-      this.add_child(this.label);
-      this.set_label_actor(this.label);
       this.markWindow(null);
     }
 
     markX11Session(): void {
       this.visible = true;
-      this.label.text = _("X11 session");
     }
 
     markWindow(window: Meta.Window | null) {
       const clientType = window?.get_client_type();
-      if (clientType === Meta.WindowClientType.X11) {
-        this.label.text = _("X");
-        this.visible = true;
-      } else {
-        this.visible = false;
-        this.label.text = "";
-      }
+      this.visible = clientType === Meta.WindowClientType.X11;
     }
   },
 );

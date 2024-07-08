@@ -4,11 +4,11 @@
 [![](https://img.shields.io/github/v/release/swsnr/gnome-shell-extension-xwayland-indicator)](https://github.com/swsnr/gnome-shell-extension-xwayland-indicator/releases/)
 [![CI status](https://img.shields.io/github/actions/workflow/status/swsnr/gnome-shell-extension-xwayland-indicator/ci.yaml)](https://github.com/swsnr/gnome-shell-extension-xwayland-indicator/actions)
 
-Determine whether a window uses xwayland in GNOME.
+Point out X11 windows in GNOME.
 
 ![](./screenshot.png)
 
-This small GNOME extension shows a small "X" indicator in the panel if the currently focused window uses xwayland.
+This small GNOME extension shows the X11 logo in the panel if the current session uses X11 instead of wayland or if the currently focused window used xwayland.
 
 ## Install
 

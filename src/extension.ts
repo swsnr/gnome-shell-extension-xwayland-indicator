@@ -24,12 +24,17 @@ import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import { DestructibleExtension } from "./lib/common/extension.js";
 import { Destroyer, SignalConnectionTracker } from "./lib/common/lifecycle.js";
 import { XWaylandIndicator } from "./lib/indicator.js";
+import { IconThemeLoader } from "./lib/common/ui/icons.js";
 
 export default class XWaylandExtension extends DestructibleExtension {
   override initialize(destroyer: Destroyer): void {
     const signalTracker = destroyer.add(new SignalConnectionTracker());
 
-    const indicator = destroyer.add(new XWaylandIndicator());
+    const iconLoader = new IconThemeLoader(
+      this.metadata.dir.get_child("icons"),
+    );
+
+    const indicator = destroyer.add(new XWaylandIndicator(iconLoader));
     Main.panel.addToStatusArea(this.metadata.uuid, indicator);
 
     const compositorType = global.display.get_context().get_compositor_type();
