@@ -2,7 +2,7 @@
   "name": "XWayland Indicator",
   "uuid": "xwayland-indicator@swsnr.de",
   "description": "Indicate whether the focused window uses XWayland.",
-  "version-name": "46.1",
+  "version-name": "46.2",
   "url": "https://github.com/swsnr/gnome-shell-extension-xwayland",
   "shell-version": ["46"]
 }
