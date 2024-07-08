@@ -6,3 +6,6 @@
 
 # Build outputs
 /build/
+
+# Editor things
+/.vscode/
