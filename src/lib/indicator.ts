@@ -25,10 +25,10 @@ import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import { IconLoader } from "./common/ui/icons.js";
 import { Destructible } from "./common/lifecycle.js";
 
-export const XWaylandIndicator = GObject.registerClass(
-  class XWaylandIndicator extends PanelMenu.Button implements Destructible {
+export const X11SessionIndicator = GObject.registerClass(
+  class X11SessionIndicator extends PanelMenu.Button implements Destructible {
     constructor(iconLoader: IconLoader) {
-      super(0, "XWayland Indicator", true);
+      super(0, "X11 session", true);
 
       this.add_child(
         new St.Icon({
@@ -38,11 +38,29 @@ export const XWaylandIndicator = GObject.registerClass(
       );
 
       this.setSensitive(false);
-      this.markWindow(null);
     }
+  },
+);
 
-    markX11Session(): void {
-      this.visible = true;
+export type X11SessionIndicator = InstanceType<typeof X11SessionIndicator>;
+
+export const XWaylandWindowIndicator = GObject.registerClass(
+  class XWaylandWindowIndicator
+    extends PanelMenu.Button
+    implements Destructible
+  {
+    constructor(iconLoader: IconLoader) {
+      super(0, "XWayland Window", true);
+
+      this.add_child(
+        new St.Icon({
+          styleClass: "system-status-icon",
+          gicon: iconLoader.loadIcon("window-x11-symbolic"),
+        }),
+      );
+
+      this.setSensitive(false);
+      this.markWindow(null);
     }
 
     markWindow(window: Meta.Window | null) {
@@ -52,4 +70,4 @@ export const XWaylandIndicator = GObject.registerClass(
   },
 );
 
-export type XWaylandIndicator = InstanceType<typeof XWaylandIndicator>;
+export type XWaylandIndicator = InstanceType<typeof XWaylandWindowIndicator>;

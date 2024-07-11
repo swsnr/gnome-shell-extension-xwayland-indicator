@@ -20,29 +20,32 @@
 import Meta from "gi://Meta";
 
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
+import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 
 import { DestructibleExtension } from "./lib/common/extension.js";
 import { Destroyer, SignalConnectionTracker } from "./lib/common/lifecycle.js";
-import { XWaylandIndicator } from "./lib/indicator.js";
+import {
+  X11SessionIndicator,
+  XWaylandWindowIndicator,
+} from "./lib/indicator.js";
 import { IconThemeLoader } from "./lib/common/ui/icons.js";
 
 export default class XWaylandExtension extends DestructibleExtension {
-  override initialize(destroyer: Destroyer): void {
-    const signalTracker = destroyer.add(new SignalConnectionTracker());
-
+  private createIndicator(destroyer: Destroyer): PanelMenu.Button {
     const iconLoader = new IconThemeLoader(
       this.metadata.dir.get_child("icons"),
     );
 
-    const indicator = destroyer.add(new XWaylandIndicator(iconLoader));
-    Main.panel.addToStatusArea(this.metadata.uuid, indicator);
-
     const compositorType = global.display.get_context().get_compositor_type();
     if (compositorType === Meta.CompositorType.X11) {
       console.log("X11 session, not monitoring focused window");
-      indicator.markX11Session();
+      return new X11SessionIndicator(iconLoader);
     } else {
+      const signalTracker = destroyer.add(new SignalConnectionTracker());
+
+      const indicator = destroyer.add(new XWaylandWindowIndicator(iconLoader));
       console.log("Wayland session, monitoring focused window");
+
       signalTracker.track(
         global.display,
         global.display.connect("notify::focus-window", (display) => {
@@ -50,6 +53,12 @@ export default class XWaylandExtension extends DestructibleExtension {
         }),
       );
       indicator.markWindow(global.display.focusWindow);
+      return indicator;
     }
+  }
+
+  override initialize(destroyer: Destroyer): void {
+    const indicator = this.createIndicator(destroyer);
+    Main.panel.addToStatusArea(this.metadata.uuid, indicator);
   }
 }
