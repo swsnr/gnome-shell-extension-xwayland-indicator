@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       '@girs/gjs':
-        specifier: ^4.0.0-beta.12
+        specifier: ^4.0.0-beta.14
         version: 4.0.0-beta.14
       '@girs/gnome-shell':
         specifier: ^46.0.2
