@@ -14,8 +14,8 @@
     "pnpm": "^9"
   },
   "devDependencies": {
-    "@girs/gjs": "^3.3.0",
-    "@girs/gnome-shell": "^46.0.0-beta6",
+    "@girs/gjs": "^4.0.0-beta.12",
+    "@girs/gnome-shell": "^46.0.2",
     "@tsconfig/strictest": "^2.0.5",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",

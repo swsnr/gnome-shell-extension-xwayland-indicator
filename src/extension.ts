@@ -48,8 +48,8 @@ export default class XWaylandExtension extends DestructibleExtension {
 
       signalTracker.track(
         global.display,
-        global.display.connect("notify::focus-window", (display) => {
-          indicator.markWindow(display.focusWindow);
+        global.display.connect("notify::focus-window", (_, window: Meta.Window) => {
+          indicator.markWindow(window);
         }),
       );
       indicator.markWindow(global.display.focusWindow);

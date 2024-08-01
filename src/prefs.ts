@@ -51,9 +51,6 @@ const getTemplate = (name: string): string => {
     `ui/${name}.ui`,
     GLib.UriFlags.NONE,
   );
-  if (uri === null) {
-    throw new Error(`Failed to resolve URI for template ${name}!`);
-  }
   return uri;
 };
 
