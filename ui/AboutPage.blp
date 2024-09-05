@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $AboutPage : Adw.PreferencesPage {
+template $XWaylandIndicatorAboutPage: Adw.PreferencesPage {
   title: _("About");
   icon-name: "dialog-information-symbolic";
 
@@ -17,12 +17,18 @@ template $AboutPage : Adw.PreferencesPage {
       Label extensionName {
         label: "The name of this extension";
         margin-bottom: 5;
-        styles ["title-1"]
+
+        styles [
+          "title-1"
+        ]
       }
 
       Label extensionVersion {
         label: "0.0.0";
-        styles ["caption"]
+
+        styles [
+          "caption"
+        ]
       }
     }
 
@@ -42,7 +48,6 @@ template $AboutPage : Adw.PreferencesPage {
 
       LinkButton linkGithub {
         label: C_("about link", "Github");
-
       }
 
       LinkButton linkIssues {

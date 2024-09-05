@@ -64,7 +64,7 @@ interface AboutPageChildren {
 
 const AboutPage = GObject.registerClass(
   {
-    GTypeName: "AboutPage",
+    GTypeName: "XWaylandIndicatorAboutPage",
     Template: getTemplate("AboutPage"),
     InternalChildren: [
       "extensionName",
