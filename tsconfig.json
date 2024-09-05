@@ -15,5 +15,4 @@
     // Our sources
     "src/**/*.ts"
   ],
-  "exclude": [".eslintrc.cjs"]
 }
