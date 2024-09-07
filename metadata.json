@@ -2,7 +2,7 @@
   "name": "XWayland Indicator",
   "uuid": "xwayland-indicator@swsnr.de",
   "description": "Point out X11 windows in GNOME.\n\nThis small GNOME extension shows the X11 logo in the panel if the current session uses X11 instead of wayland or if the currently focused window used xwayland.",
-  "version-name": "46.5",
+  "version-name": "46.6",
   "url": "https://github.com/swsnr/gnome-shell-extension-xwayland",
   "shell-version": ["46"]
 }
