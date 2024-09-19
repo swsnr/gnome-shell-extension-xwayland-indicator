@@ -4,5 +4,5 @@
   "description": "Point out X11 windows in GNOME.\n\nThis small GNOME extension shows the X11 logo in the panel if the current session uses X11 instead of wayland or if the currently focused window uses xwayland.",
   "version-name": "46.6",
   "url": "https://github.com/swsnr/gnome-shell-extension-xwayland",
-  "shell-version": ["46"]
+  "shell-version": ["46", "47"]
 }
