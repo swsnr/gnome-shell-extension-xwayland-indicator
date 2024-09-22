@@ -93,7 +93,8 @@ const AboutPage = GObject.registerClass(
 );
 
 export default class XWaylandIndicatorPreferences extends ExtensionPreferences {
-  override fillPreferencesWindow(window: Adw.PreferencesWindow): void {
+  override fillPreferencesWindow(window: Adw.PreferencesWindow): Promise<void> {
     window.add(new AboutPage(this.metadata));
+    return Promise.resolve();
   }
 }
