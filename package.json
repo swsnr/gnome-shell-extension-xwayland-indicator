@@ -3,11 +3,16 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "blueprint": "glob -c 'blueprint-compiler batch-compile ui ui' 'ui/*.blp'",
+    "postblueprint": "git add ui",
     "compile": "tsc --build tsconfig.json",
-    "dist:format": "eslint --no-config-lookup --config eslint.config.dist.js --quiet --fix build/",
+    "postcompile": "eslint --no-config-lookup --config eslint.config.dist.js --quiet --fix .",
     "check:types": "tsc --build tsconfig.types.json",
+    "prepack": "pnpm run compile",
+    "pack": "gsebuild pack",
     "lint": "eslint .",
-    "format": "prettier ."
+    "format": "prettier .",
+    "clean": "rimraf --no-interactive build dist"
   },
   "engines": {
     "node": ">=20",
@@ -16,11 +21,26 @@
   "devDependencies": {
     "@girs/gjs": "^4.0.0-beta.17",
     "@girs/gnome-shell": "^47.0.0",
-    "@tsconfig/strictest": "^2.0.5",
+    "@swsnr/gsebuild": "^0.0.5",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
+    "glob": "^11.0.0",
     "prettier": "^3.3.3",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.12.2"
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  },
+  "gsebuild": {
+    "pack": {
+      "copy-to-source": ["ui/*.ui"],
+      "source-directory": "build",
+      "extra-sources": [
+        "ui",
+        "lib",
+        "../LICENSE*",
+        "../README.md",
+        "../icons",
+        "../metadata.json"
+      ]
+    }
   }
 }
