@@ -11,6 +11,15 @@ import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
   ...gsebuild.configs.typescript,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        // @ts-ignore
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
   eslintConfigPrettier,
   // Global ignores, see https://eslint.org/docs/latest/use/configure/configuration-files#globally-ignoring-files-with-ignores
   // "ignores" must be the _only_ key in this object!
