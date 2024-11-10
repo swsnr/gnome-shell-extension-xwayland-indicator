@@ -8,18 +8,16 @@
     "compile": "tsc --build tsconfig.json",
     "postcompile": "eslint --no-config-lookup --config eslint.config.dist.js --quiet --fix .",
     "check:types": "tsc --build tsconfig.types.json",
-    "prepack": "pnpm run compile",
+    "prepack": "npm run compile",
     "pack": "gsebuild pack",
     "lint": "eslint .",
     "format": "prettier .",
     "clean": "rimraf --no-interactive build dist"
   },
   "engines": {
-    "node": ">=20",
-    "pnpm": "^9"
+    "node": ">=23"
   },
   "devDependencies": {
-    "@girs/gjs": "^4.0.0-beta.17",
     "@girs/gnome-shell": "^47.0.0",
     "@swsnr/gsebuild": "^0.0.6",
     "eslint": "^9.13.0",
