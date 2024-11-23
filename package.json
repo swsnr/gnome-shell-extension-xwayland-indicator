@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@girs/gnome-shell": "^47.0.0",
-    "@swsnr/gsebuild": "^0.0.6",
+    "@swsnr/gsebuild": "^0.1.2",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "glob": "^11.0.0",
