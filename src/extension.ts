@@ -39,7 +39,7 @@ export default class XWaylandExtension extends DestructibleExtension {
     const compositorType = global.display.get_context().get_compositor_type();
     if (compositorType === Meta.CompositorType.X11) {
       console.log("X11 session, not monitoring focused window");
-      return new X11SessionIndicator(iconLoader);
+      return destroyer.add(new X11SessionIndicator(iconLoader));
     } else {
       const signalTracker = destroyer.add(new SignalConnectionTracker());
 
