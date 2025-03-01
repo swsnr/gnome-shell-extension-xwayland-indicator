@@ -18,7 +18,7 @@
     "node": ">=23"
   },
   "devDependencies": {
-    "@girs/gnome-shell": "^47.0.1",
+    "@girs/gnome-shell": "^47.0.2",
     "@swsnr/gsebuild": "^0.1.2",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
