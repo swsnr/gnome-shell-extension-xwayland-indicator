@@ -21,7 +21,7 @@
     "@girs/gnome-shell": "^47.0.1",
     "@swsnr/gsebuild": "^0.1.2",
     "eslint": "^9.21.0",
-    "eslint-config-prettier": "^10.0.1",
+    "eslint-config-prettier": "^10.0.2",
     "glob": "^11.0.1",
     "prettier": "^3.5.2",
     "rimraf": "^6.0.1",
