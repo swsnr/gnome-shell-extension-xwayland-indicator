@@ -29,7 +29,6 @@
   },
   "gsebuild": {
     "pack": {
-      "copy-to-source": ["ui/*.ui"],
       "source-directory": "build",
       "extra-sources": [
         "ui",
