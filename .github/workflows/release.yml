@@ -2,7 +2,6 @@ name: Release
 
 on:
   push:
-    branches: [main]
     tags: v*
 
 jobs:
@@ -10,24 +9,18 @@ jobs:
     # Run build on main as well to make sure it's working before we make a release
     runs-on: ubuntu-latest
     container:
-      # Fedora 41 ships GNOME 47, i.e. the version we currently support
-      image: docker.io/fedora:41
+      # Fedora 42 ships GNOME 48, i.e. the version we currently support
+      image: docker.io/fedora:42
     steps:
       - name: Install git, and gnome-shell
-        run: dnf install -y --setopt=install_weak_deps=False git gnome-shell
+        run: dnf install -y --setopt=install_weak_deps=False add-determinism git gnome-shell
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: "npm"
-      - run: npm ci
-      - run: npm run pack
-      - run: b2sum *.zip > B2SUMS.txt
-        working-directory: dist
+      - run: gnome-extensions pack
+      # Make artifact reproducible
+      - run: SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct)" add-determinism xwayland-indicator@swsnr.de.shell-extension.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: "dist/*"
+          path: xwayland-indicator@swsnr.de.shell-extension.zip
 
   attest:
     runs-on: ubuntu-latest
@@ -36,24 +29,19 @@ jobs:
       id-token: write
       contents: read
       attestations: write
-    # Only attest artifacts created for actual releases
-    if: ${{ startsWith(github.ref, 'refs/tags/') }}
     steps:
       - uses: actions/download-artifact@v4
         with:
-          path: dist
-          name: dist
+          merge-multiple: true
       - uses: actions/attest-build-provenance@v2
         with:
-          subject-path: dist/*
+          subject-path: xwayland-indicator@swsnr.de.shell-extension.zip
 
   create-release:
     runs-on: ubuntu-latest
     needs: build
     permissions:
       contents: write
-    # Only create a release on a tag
-    if: ${{ startsWith(github.ref, 'refs/tags/') }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -62,13 +50,12 @@ jobs:
           ref: "${{ github.ref }}"
       - uses: actions/download-artifact@v4
         with:
-          path: dist
-          name: dist
+          merge-multiple: true
       - run: echo "RELEASE_SUBJECT=$(git tag -ln1 --format='%(contents:subject)' "${GITHUB_REF_NAME}")" >> "$GITHUB_ENV"
       - run: git tag -ln1 --format='%(contents:body)' "${GITHUB_REF_NAME}" > ${{ github.workspace }}-body.txt
       - uses: softprops/action-gh-release@v2
         with:
           name: "${{ env.RELEASE_SUBJECT }}"
           body_path: "${{ github.workspace }}-body.txt"
-          files: "dist/*"
+          files: "xwayland-indicator@swsnr.de.shell-extension.zip"
           fail_on_unmatched_files: true
