@@ -1,12 +1,11 @@
 {
-  "extends": "@swsnr/gsebuild/tsconfig.json",
+  "extends": "@tsconfig/strictest/tsconfig.json",
   "compilerOptions": {
-    "outDir": "build"
+    "noEmit": true,
+    "checkJs": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "lib": ["ES2022"]
   },
-  "include": [
-    // Ambient types
-    "@types/gnome-shell/ambient.d.ts",
-    // Our sources
-    "src/**/*.ts"
-  ]
+  "include": ["eslint.config.mjs", "extension.js"]
 }

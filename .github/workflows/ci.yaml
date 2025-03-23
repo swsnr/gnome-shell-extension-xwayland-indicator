@@ -16,6 +16,6 @@ jobs:
           node-version: latest
           cache: "npm"
       - run: npm ci
-      - run: npm run lint
-      - run: npm run format --check
-      - run: npm run check:types
+      - run: npx tsc --project .
+      - run: npx eslint .
+      - run: npx prettier --check .

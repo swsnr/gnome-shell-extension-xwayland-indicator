@@ -1,42 +1,13 @@
 {
-  "license": "GPL-2.0-or-later OR MPL-2.0",
-  "type": "module",
   "private": true,
-  "scripts": {
-    "blueprint": "glob -c 'blueprint-compiler batch-compile ui ui' 'ui/*.blp'",
-    "postblueprint": "git add ui",
-    "compile": "tsc --build tsconfig.json",
-    "postcompile": "eslint --no-config-lookup --config eslint.config.dist.js --quiet --fix .",
-    "check:types": "tsc --build tsconfig.types.json",
-    "prepack": "npm run compile",
-    "pack": "gsebuild pack",
-    "lint": "eslint .",
-    "format": "prettier .",
-    "clean": "rimraf --no-interactive build dist"
-  },
-  "engines": {
-    "node": ">=23"
-  },
   "devDependencies": {
+    "@eslint/js": "^9.23.0",
     "@girs/gnome-shell": "^48.0.1",
-    "@swsnr/gsebuild": "^0.1.2",
-    "eslint": "^9.21.0",
-    "eslint-config-prettier": "^10.0.2",
-    "glob": "^11.0.1",
-    "prettier": "^3.5.2",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.8.2"
+    "@tsconfig/strictest": "^2.0.5",
+    "eslint": "^9.23.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.27.0"
   },
-  "gsebuild": {
-    "pack": {
-      "source-directory": "build",
-      "extra-sources": [
-        "ui",
-        "lib",
-        "../LICENSE*",
-        "../README.md",
-        "../icons"
-      ]
-    }
-  }
+  "prettier": {}
 }
