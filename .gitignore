@@ -2,10 +2,7 @@
 /node_modules/
 
 # Extension artifact
-/dist/
-
-# Build outputs
-/build/
+/*.shell-extension.zip
 
 # Editor things
 /.vscode/
