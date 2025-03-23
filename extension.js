@@ -32,6 +32,10 @@ import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 
 /**
+ * @typedef {ReturnType<Extension['getLogger']>} Console
+ */
+
+/**
  * Load icons from a directory following the icon theme specificion.
  */
 export class IconThemeLoader {
@@ -88,6 +92,17 @@ export class IconThemeLoader {
  * @typedef {{destroy: () => void}} Destructible
  */
 export class Destroyer {
+  #logger;
+
+  /**
+   * Create a new destroyer.
+   *
+   * @param {Console} logger
+   */
+  constructor(logger) {
+    this.#logger = logger;
+  }
+
   /**
    * Registered destructibles.
    *
@@ -118,34 +133,11 @@ export class Destroyer {
       try {
         destructible.destroy();
       } catch (error) {
-        console.error("Failed to destroy object", destructible, error);
+        this.#logger.error("Failed to destroy object", destructible, error);
       }
     }
   }
 }
-
-/**
- * Initialize resources safely.
- *
- * Call the given `initialize` function with a fresh `Destroyer`.  If `initialize` throws an error, take care to invoke
- * `destroy` of the destroyer object, to avoid leaking resources upon partial initialization.
- *
- * `initialize` just needs to register all destrucible objects on the passed `destroyer`.
- *
- * @param {(destroyer: Destroyer) => void} initialize A function to initialize some resources.
- * @returns {Destroyer} The destroyer which groups all initialized resources.
- */
-export const initializeSafely = (initialize) => {
-  const destroyer = new Destroyer();
-  try {
-    initialize(destroyer);
-  } catch (error) {
-    destroyer.destroy();
-    throw error;
-  }
-
-  return destroyer;
-};
 
 /**
  * An abstract class representing a destructible extension.
@@ -190,12 +182,19 @@ export class DestructibleExtension extends Extension {
    * @override
    */
   enable() {
+    const log = this.getLogger();
     if (!this.#enabledExtension) {
-      console.log(`Enabling extension ${this.metadata.uuid} ${this.version}`);
-      this.#enabledExtension = initializeSafely((destroyer) => {
+      log.log(`Enabling extension ${this.metadata.uuid} ${this.version}`);
+      const destroyer = new Destroyer(log);
+      try {
         this.initialize(destroyer);
-      });
-      console.log(
+      } catch (error) {
+        destroyer.destroy();
+        throw error;
+      }
+
+      this.#enabledExtension = destroyer;
+      log.log(
         `Extension ${this.metadata.uuid} ${this.version} successfully enabled`,
       );
     }
@@ -209,7 +208,9 @@ export class DestructibleExtension extends Extension {
    * @override
    */
   disable() {
-    console.log(`Disabling extension ${this.metadata.uuid} ${this.version}`);
+    this.getLogger().log(
+      `Disabling extension ${this.metadata.uuid} ${this.version}`,
+    );
     this.#enabledExtension?.destroy();
     this.#enabledExtension = null;
   }
@@ -295,17 +296,18 @@ export default class XWaylandExtension extends DestructibleExtension {
    * @returns {PanelMenu.Button} The indicator
    */
   #createIndicator(destroyer) {
+    const log = this.getLogger();
     const iconLoader = new IconThemeLoader(
       this.metadata.dir.get_child("icons"),
     );
 
     const compositorType = global.display.get_context().get_compositor_type();
     if (compositorType === Meta.CompositorType.X11) {
-      console.log("X11 session, not monitoring focused window");
+      log.log("X11 session, not monitoring focused window");
       return destroyer.add(new X11SessionIndicator(iconLoader));
     } else {
       const indicator = destroyer.add(new XWaylandWindowIndicator(iconLoader));
-      console.log("Wayland session, monitoring focused window");
+      log.log("Wayland session, monitoring focused window");
 
       const signalId = global.display.connect("focus-window", (_, window) => {
         indicator.markWindow(window);

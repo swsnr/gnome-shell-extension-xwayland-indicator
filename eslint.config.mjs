@@ -38,6 +38,7 @@ export default tseslint.config(
   },
   {
     rules: {
+      "no-console": "error",
       // Typescript does this
       "no-undef": "off",
       "@typescript-eslint/no-unused-vars": "off",

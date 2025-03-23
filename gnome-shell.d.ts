@@ -18,6 +18,5 @@
 // GNU General Public License for more details.
 
 import "@girs/gjs";
-import "@girs/gjs/dom";
 import "@girs/gnome-shell/ambient";
 import "@girs/gnome-shell/extensions/global";
