@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: gnome-extensions pack
       # Make artifact reproducible
-      - run: SOURCE_DATE_EPOCH="$(git log -1 --pretty=%ct)" add-determinism xwayland-indicator@swsnr.de.shell-extension.zip
+      - run: SOURCE_DATE_EPOCH=0 add-determinism xwayland-indicator@swsnr.de.shell-extension.zip
       - uses: actions/upload-artifact@v4
         with:
           path: xwayland-indicator@swsnr.de.shell-extension.zip
