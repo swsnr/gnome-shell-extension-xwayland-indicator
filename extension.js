@@ -32,7 +32,7 @@ import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 
 /**
- * @typedef {ReturnType<Extension['getLogger']>} Console
+ * @import {ConsoleLike} from "resource:///org/gnome/shell/extensions/extension.js"
  */
 
 /**
@@ -92,12 +92,15 @@ class IconThemeLoader {
  * @typedef {{destroy: () => void}} Destructible
  */
 class Destroyer {
+  /**
+   * @type {ConsoleLike}
+   */
   #logger;
 
   /**
    * Create a new destroyer.
    *
-   * @param {Console} logger
+   * @param {ConsoleLike} logger
    */
   constructor(logger) {
     this.#logger = logger;

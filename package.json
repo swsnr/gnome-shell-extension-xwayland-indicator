@@ -2,7 +2,7 @@
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.23.0",
-    "@girs/gnome-shell": "^48.0.1",
+    "@girs/gnome-shell": "^48.0.2",
     "@tsconfig/strictest": "^2.0.5",
     "eslint": "^9.23.0",
     "prettier": "^3.5.3",
