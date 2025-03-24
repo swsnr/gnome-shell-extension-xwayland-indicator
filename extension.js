@@ -109,7 +109,7 @@ class Destroyer {
   /**
    * Registered destructibles.
    *
-   * @type Destructible[]
+   * @type {Destructible[]}
    */
   #destructibles = [];
 
