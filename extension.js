@@ -38,7 +38,7 @@ import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 /**
  * Load icons from a directory following the icon theme specificion.
  */
-export class IconThemeLoader {
+class IconThemeLoader {
   /**
    * The theme to lookup our icons.
    *
@@ -91,7 +91,7 @@ export class IconThemeLoader {
  *
  * @typedef {{destroy: () => void}} Destructible
  */
-export class Destroyer {
+class Destroyer {
   #logger;
 
   /**
@@ -136,83 +136,6 @@ export class Destroyer {
         this.#logger.error("Failed to destroy object", destructible, error);
       }
     }
-  }
-}
-
-/**
- * An abstract class representing a destructible extension.
- *
- * This class handles the infrastructure for enabling and disabling the
- * extension; implementations only need to provide initialization.
- */
-export class DestructibleExtension extends Extension {
-  /**
-   * Destructible for the enabled extension, or null if the extension is not enabled.
-   *
-   * @type {Destructible | null}
-   */
-  #enabledExtension = null;
-
-  /**
-   * The version of this extension, as extracted from metadata.
-   *
-   * @type {string}
-   */
-  get version() {
-    return this.metadata["version-name"] ?? "n/a";
-  }
-
-  /**
-   * Initialize this extension.
-   *
-   * Implementations should register all their resources on the `given`
-   * destroyer which gets destroyed when the extension is disabled.
-   *
-   * @param {Destroyer} _destroyer An object to register all resources on
-   */
-  initialize(_destroyer) {
-    throw new Error("Must implement initialize");
-  }
-
-  /**
-   * Enable this extension.
-   *
-   * If not already enabled, call `initialize` and keep track its allocated resources.
-   *
-   * @override
-   */
-  enable() {
-    const log = this.getLogger();
-    if (!this.#enabledExtension) {
-      log.log(`Enabling extension ${this.metadata.uuid} ${this.version}`);
-      const destroyer = new Destroyer(log);
-      try {
-        this.initialize(destroyer);
-      } catch (error) {
-        destroyer.destroy();
-        throw error;
-      }
-
-      this.#enabledExtension = destroyer;
-      log.log(
-        `Extension ${this.metadata.uuid} ${this.version} successfully enabled`,
-      );
-    }
-  }
-
-  /**
-   * Disable this extension.
-   *
-   * If existing, destroy the allocated resources of `initialize`.
-   *
-   * @override
-   */
-  disable() {
-    this.getLogger().log(
-      `Disabling extension ${this.metadata.uuid} ${this.version}`,
-    );
-    this.#enabledExtension?.destroy();
-    this.#enabledExtension = null;
   }
 }
 
@@ -288,7 +211,23 @@ const XWaylandWindowIndicator = GObject.registerClass(
  * session show a X11 window icon whenever the currently focused window uses
  * XWayland.
  */
-export default class XWaylandExtension extends DestructibleExtension {
+export default class XWaylandExtension extends Extension {
+  /**
+   * Destructible for the enabled extension, or null if the extension is not enabled.
+   *
+   * @type {Destructible | null}
+   */
+  #enabledExtension = null;
+
+  /**
+   * The version of this extension, as extracted from metadata.
+   *
+   * @type {string}
+   */
+  get version() {
+    return this.metadata["version-name"] ?? "n/a";
+  }
+
   /**
    * Create the indicator for this extension.
    *
@@ -329,10 +268,50 @@ export default class XWaylandExtension extends DestructibleExtension {
    * Create the indicator and add it to the status area.
    *
    * @param {Destroyer} destroyer Tor egister cleanup actions on.
-   * @override
    */
-  initialize(destroyer) {
+  #initialize(destroyer) {
     const indicator = this.#createIndicator(destroyer);
     Main.panel.addToStatusArea(this.metadata.uuid, indicator);
+  }
+
+  /**
+   * Enable this extension.
+   *
+   * If not already enabled, call `initialize` and keep track its allocated resources.
+   *
+   * @override
+   */
+  enable() {
+    const log = this.getLogger();
+    if (!this.#enabledExtension) {
+      log.log(`Enabling extension ${this.metadata.uuid} ${this.version}`);
+      const destroyer = new Destroyer(log);
+      try {
+        this.#initialize(destroyer);
+      } catch (error) {
+        destroyer.destroy();
+        throw error;
+      }
+
+      this.#enabledExtension = destroyer;
+      log.log(
+        `Extension ${this.metadata.uuid} ${this.version} successfully enabled`,
+      );
+    }
+  }
+
+  /**
+   * Disable this extension.
+   *
+   * If existing, destroy the allocated resources of `initialize`.
+   *
+   * @override
+   */
+  disable() {
+    this.getLogger().log(
+      `Disabling extension ${this.metadata.uuid} ${this.version}`,
+    );
+    this.#enabledExtension?.destroy();
+    this.#enabledExtension = null;
   }
 }
