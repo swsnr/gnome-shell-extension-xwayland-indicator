@@ -3,6 +3,7 @@
 
 # Extension artifact
 /*.shell-extension.zip
+/*.shell-extension.zip.sig
 
 # Editor things
 /.vscode/
