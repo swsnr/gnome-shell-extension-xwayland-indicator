@@ -1,8 +1,7 @@
 # XWayland GNOME shell extension
 
 [![Download on EGO](https://img.shields.io/badge/EGO-install-blue)](https://extensions.gnome.org/extension/6676/xwayland-indicator/)
-[![](https://img.shields.io/github/v/release/swsnr/gnome-shell-extension-xwayland-indicator)](https://github.com/swsnr/gnome-shell-extension-xwayland-indicator/releases/)
-[![CI status](https://img.shields.io/github/actions/workflow/status/swsnr/gnome-shell-extension-xwayland-indicator/ci.yaml)](https://github.com/swsnr/gnome-shell-extension-xwayland-indicator/actions)
+![Codeberg Release](https://img.shields.io/gitea/v/release/swsnr/gnome-shell-extension-xwayland-indicator?gitea_url=https%3A%2F%2Fcodeberg.org)
 
 Point out X11 windows in GNOME.
 
@@ -17,7 +16,7 @@ Install from [extensions.gnome.org](https://extensions.gnome.org/extension/6676/
 **Note**: The mandatory review process for extensions.gnome.org can sometimes delay releases for a few days, in particular if the release contains larger changes.
 Please do be patient, or use release file (see below) as an alternative.
 
-Or download the latest ZIP file from [releases](https://github.com/swsnr/gnome-shell-extension-xwayland-indicator/releases),
+Or download the latest ZIP file from [releases](https://codeberg.org/swsnr/gnome-shell-extension-xwayland-indicator/releases),
 and install with
 
 ```console
