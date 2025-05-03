@@ -10,7 +10,9 @@ test-all:
 
 pack:
     rm -f xwayland-indicator@swsnr.de.shell-extension.zip xwayland-indicator@swsnr.de.shell-extension.zip.sig
-    gnome-extensions pack --force --extra-source LICENSE-GPL2 --extra-source LICENSE-MPL2
+    gnome-extensions pack --force \
+        --extra-source icons \
+        --extra-source LICENSE-GPL2 --extra-source LICENSE-MPL2
     # Get my codeberg SSH key for signing the artifacts
     curl https://codeberg.org/swsnr.keys > key
     ssh-keygen -Y sign -f key -n file xwayland-indicator@swsnr.de.shell-extension.zip
