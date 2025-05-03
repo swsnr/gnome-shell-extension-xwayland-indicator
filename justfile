@@ -3,6 +3,7 @@ default:
 
 test-all:
     npm ci
+    npm audit
     npx tsc --project .
     npx eslint .
     npx prettier --check .
