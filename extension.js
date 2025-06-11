@@ -165,7 +165,7 @@ const XWaylandWindowIndicator = GObject.registerClass(
   class XWaylandWindowIndicator extends PanelMenu.Button {
     /**
      * Create a new indicator for XWayland windows.
-     * s
+     *
      * @param {IconThemeLoader} iconLoader Load icons.
      */
     constructor(iconLoader) {
