@@ -19,7 +19,7 @@ export const X11SessionIndicator = GObject.registerClass(
   class X11SessionIndicator extends PanelMenu.Button implements Destructible {
     /**
      * Create a new indicator for an X11 session.
-     * s
+     *
      * @param iconLoader Load icons.
      */
     constructor(iconLoader: IconThemeLoader) {
