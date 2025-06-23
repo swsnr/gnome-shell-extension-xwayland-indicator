@@ -1,26 +1,45 @@
+tsc := 'npx tsc'
+
+uuid := 'xwayland-indicator@swsnr.de'
+artifact := uuid + '.shell-extension.zip'
+
 default:
     just --list
 
-test-all:
-    npm ci
-    npm audit
-    npx tsc --project .
+lint:
     npx eslint .
     npx prettier --check .
+    npm audit
 
-pack:
-    rm -f xwayland-indicator@swsnr.de.shell-extension.zip xwayland-indicator@swsnr.de.shell-extension.zip.sig
-    gnome-extensions pack --force --extra-source icons --extra-source LICENSE
-    # Get my codeberg SSH key for signing the artifacts
+typecheck:
+    npx tsc --project .
+
+test-all: && typecheck lint
+    npm ci
+
+clean:
+    rm -rf build '{{artifact}}' '{{artifact}}.sig'
+
+build:
+    {{tsc}} --project ./tsconfig.pack.json
+    cp -t build metadata.json
+
+pack: clean build
+    gnome-extensions pack --force \
+        --extra-source ../icons --extra-source ../LICENSE --extra-source lib \
+        build
+
+sign: pack
+    @# Get my codeberg SSH key for signing the artifacts
     curl https://codeberg.org/swsnr.keys > key
-    ssh-keygen -Y sign -f key -n file xwayland-indicator@swsnr.de.shell-extension.zip
-    rm key
+    ssh-keygen -Y sign -f key -n file '{{artifact}}'
+    @rm -f key
 
-ensure-repo-clean:
+_ensure-repo-clean:
     git update-index --really-refresh
     git diff-index --quiet HEAD
 
-release VERSION: ensure-repo-clean
+release VERSION: _ensure-repo-clean
     sed -i 's/"version-name": .*,/"version-name": "{{VERSION}}",/' metadata.json
     git add metadata.json
     git commit -m 'Release {{VERSION}}'

@@ -1,11 +1,8 @@
 {
-  "extends": "@tsconfig/strictest/tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "checkJs": true,
-    "target": "ES2022",
-    "module": "NodeNext",
-    "lib": ["ES2022"]
+    "checkJs": true
   },
-  "include": ["eslint.config.mjs", "extension.js"]
+  "include": ["eslint.config.mjs", "gnome-shell.d.ts", "src/**/*.ts"]
 }

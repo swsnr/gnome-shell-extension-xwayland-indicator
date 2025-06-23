@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "build",
+    "noCheck": true,
+    "skipLibCheck": true,
+    "removeComments": false
+  },
+  "include": ["src/**/*.ts"]
+}

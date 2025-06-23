@@ -29,8 +29,9 @@ export default tseslint.config(
       // Typescript does this
       "no-undef": "off",
       "@typescript-eslint/no-unused-vars": "off",
-      // We can't import Typescript declaration files in Javascript files.
-      "@typescript-eslint/triple-slash-reference": "off",
     },
+  },
+  {
+    ignores: ["build/", "node_modules/"],
   },
 );
