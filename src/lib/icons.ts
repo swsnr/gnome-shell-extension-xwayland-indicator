@@ -8,7 +8,7 @@ import Gio from "gi://Gio";
 import St from "gi://St";
 
 /**
- * Load icons from a directory following the icon theme specificion.
+ * Load icons from a directory following the icon theme specification.
  */
 export class IconThemeLoader {
   /**
