@@ -44,7 +44,7 @@ release VERSION: _ensure-repo-clean
     git add metadata.json
     git commit -m 'Release {{VERSION}}'
     git tag -a -s 'v{{VERSION}}'
-    just pack
+    just sign
     git push --follow-tags origin main
-    echo "Upload zip to https://extensions.gnome.org"
-    echo "Create a new codeberg release at https://codeberg.org/swsnr/gnome-shell-extension-xwayland-indicator/releases/new?tag=v{{VERSION}}"
+    @echo "Upload zip to https://extensions.gnome.org"
+    @echo "Create a new codeberg release at https://codeberg.org/swsnr/gnome-shell-extension-xwayland-indicator/releases/new?tag=v{{VERSION}}"
