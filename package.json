@@ -3,7 +3,7 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^9.36.0",
-    "@girs/gnome-shell": "^48.0.2",
+    "@girs/gnome-shell": "^49.0.1",
     "@tsconfig/strictest": "^2.0.5",
     "eslint": "^9.36.0",
     "prettier": "^3.5.3",
