@@ -2,13 +2,13 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@eslint/js": "^9.23.0",
+    "@eslint/js": "^9.36.0",
     "@girs/gnome-shell": "^48.0.2",
     "@tsconfig/strictest": "^2.0.5",
-    "eslint": "^9.23.0",
+    "eslint": "^9.36.0",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^8.27.0"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.1"
   },
   "overrides": {
     "@girs/accountsservice-1.0": "1.0.0-4.0.0-beta.25",
