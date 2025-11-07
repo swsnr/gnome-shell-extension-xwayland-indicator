@@ -112,7 +112,7 @@ export abstract class DestructibleExtension extends Extension {
    * The version of this extension, as extracted from metadata.
    */
   get version(): string {
-    return this.metadata["version-name"] ?? "n/a";
+    return (this.metadata["version-name"] as string | undefined) ?? "n/a";
   }
 
   /**

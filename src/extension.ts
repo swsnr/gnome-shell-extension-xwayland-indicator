@@ -30,9 +30,7 @@ export default class XWaylandExtension extends DestructibleExtension {
    */
   #createIndicator(destroyer: Destroyer): PanelMenu.Button {
     const log = this.getLogger();
-    const iconLoader = new IconThemeLoader(
-      this.metadata.dir.get_child("icons"),
-    );
+    const iconLoader = new IconThemeLoader(this.dir.get_child("icons"));
 
     const compositorType = global.display.get_context().get_compositor_type();
     if (compositorType === Meta.CompositorType.X11) {
