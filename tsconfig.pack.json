@@ -5,7 +5,8 @@
     "outDir": "build",
     "noCheck": true,
     "skipLibCheck": true,
-    "removeComments": false
+    "removeComments": false,
+    "rootDir": "src/"
   },
   "include": ["src/**/*.ts"]
 }

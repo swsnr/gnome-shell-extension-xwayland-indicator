@@ -88,7 +88,7 @@ export class Destroyer {
    * Destroy all tracked destructible objects.
    */
   destroy() {
-    let destructible = undefined;
+    let destructible;
     while ((destructible = this.#destructibles.pop())) {
       try {
         destructible.destroy();
