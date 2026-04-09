@@ -14,8 +14,7 @@ lint:
 typecheck:
     npx tsc --project .
 
-test-all: && typecheck lint
-    npm ci
+test-all: typecheck lint
 
 clean:
     rm -rf build '{{artifact}}' '{{artifact}}.sig'
