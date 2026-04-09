@@ -4,12 +4,58 @@
 //
 // See https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
 
+import GObject from "gi://GObject";
+import St from "gi://St";
+import Meta from "gi://Meta";
+
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 
-import { Destroyer, DestructibleExtension } from "./lib/destructible.js";
+import {
+  Destructible,
+  Destroyer,
+  DestructibleExtension,
+} from "./lib/destructible.js";
 import { IconThemeLoader } from "./lib/icons.js";
-import { XWaylandWindowIndicator } from "./lib/indicator/wayland.js";
+
+const XWaylandWindowIndicator = GObject.registerClass(
+  /**
+   * An indicator for XWayland windows in wayland sessions.
+   */
+  class XWaylandWindowIndicator
+    extends PanelMenu.Button
+    implements Destructible
+  {
+    /**
+     * Create a new indicator for XWayland windows.
+     *
+     * @param iconLoader Load icons.
+     */
+    constructor(iconLoader: IconThemeLoader) {
+      super(0, "XWayland Window", true);
+
+      this.add_child(
+        new St.Icon({
+          styleClass: "system-status-icon",
+          gicon: iconLoader.lookupIcon("window-x11-symbolic"),
+        }),
+      );
+
+      this.setSensitive(false);
+      this.markWindow(null);
+    }
+
+    /**
+     * Mark the given `window` on this indicator.
+     *
+     * @param window The window to update the indicator for.
+     */
+    markWindow(window: Meta.Window | null) {
+      const clientType = window?.get_client_type();
+      this.visible = clientType === Meta.WindowClientType.X11;
+    }
+  },
+);
 
 /**
  * XWayland indicator extension.
