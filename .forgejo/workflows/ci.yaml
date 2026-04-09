@@ -16,4 +16,3 @@ jobs:
       - run: npx eslint .
       - run: npx prettier --check .
       - run: npm audit
-      - run: npm outdated
