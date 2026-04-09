@@ -4,14 +4,11 @@
 //
 // See https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
 
-import Meta from "gi://Meta";
-
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 
 import { Destroyer, DestructibleExtension } from "./lib/destructible.js";
 import { IconThemeLoader } from "./lib/icons.js";
-import { X11SessionIndicator } from "./lib/indicator/x11.js";
 import { XWaylandWindowIndicator } from "./lib/indicator/wayland.js";
 
 /**
@@ -32,24 +29,18 @@ export default class XWaylandExtension extends DestructibleExtension {
     const log = this.getLogger();
     const iconLoader = new IconThemeLoader(this.dir.get_child("icons"));
 
-    const compositorType = global.display.get_context().get_compositor_type();
-    if (compositorType === Meta.CompositorType.X11) {
-      log.log("X11 session, not monitoring focused window");
-      return destroyer.add(new X11SessionIndicator(iconLoader));
-    } else {
-      const indicator = destroyer.add(new XWaylandWindowIndicator(iconLoader));
-      log.log("Wayland session, monitoring focused window");
+    const indicator = destroyer.add(new XWaylandWindowIndicator(iconLoader));
+    log.log("Wayland session, monitoring focused window");
 
-      destroyer.addSignal(
-        global.display,
-        global.display.connect("focus-window", (_, window) => {
-          indicator.markWindow(window);
-        }),
-      );
+    destroyer.addSignal(
+      global.display,
+      global.display.connect("focus-window", (_, window) => {
+        indicator.markWindow(window);
+      }),
+    );
 
-      indicator.markWindow(global.display.focusWindow);
-      return indicator;
-    }
+    indicator.markWindow(global.display.focusWindow);
+    return indicator;
   }
 
   override initialize(destroyer: Destroyer) {
